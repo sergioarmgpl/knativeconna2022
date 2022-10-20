@@ -8,11 +8,16 @@ GPIO.setup(PIN,GPIO.IN,GPIO.PUD_UP)
 
 ledPin1 = 25  #define led pin1
 ledPin2 = 23  #define led pin2
+ledPin3 = 21  #running program led pin
 GPIO.setup(ledPin1,GPIO.OUT)
 GPIO.setup(ledPin2,GPIO.OUT)
+GPIO.setup(ledPin3,GPIO.OUT)
 GPIO.output(ledPin1,GPIO.LOW)
 GPIO.output(ledPin2,GPIO.LOW)
 print("irm test start...")
+#GPIO.output(ledPin1,GPIO.HIGH)  #turn on led
+GPIO.output(ledPin3,GPIO.HIGH)  #turn on led
+#print("turn on red led")
 
 def exec_cmd(key_val):
     if(key_val==0x16):
@@ -23,6 +28,7 @@ def exec_cmd(key_val):
         print("Button #")
 
 try:
+    print("inside while")
     while True:
         if GPIO.input(PIN) == 0:
             count = 0
@@ -64,16 +70,16 @@ try:
             if data[0]+data[1] == 0xFF and data[2]+data[3] == 0xFF:  
                  print("Get the key: 0x%02x" %data[2])  #Data [2] is the control code we need
                  exec_cmd(data[2])
-                 if data[2] == 0x16:
+                 if data[2] == 0x19:
                      GPIO.output(ledPin1,GPIO.HIGH)  #turn on led
                      print("turn on red led")
-                 elif data[2] == 0x19:
+                 elif data[2] == 0x1b:
                      GPIO.output(ledPin2,GPIO.HIGH)  #turn on led
                      print("turn on green led")                    
-                 if(data[2] == 0x4a):
+                 if(data[2] == 0x1f):
                      GPIO.output(ledPin1,GPIO.LOW)  #turn off red led
                      GPIO.output(ledPin2,GPIO.LOW)  #turn off green led
-                     print("turn on leds")
+                     print("turn off leds")
 except KeyboardInterrupt:
     GPIO.cleanup()
 
