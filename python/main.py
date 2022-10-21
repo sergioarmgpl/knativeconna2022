@@ -1,7 +1,10 @@
 import RPi.GPIO as GPIO
 import time
+import requests
 
 PIN = 24;  #Infrared receiving pin
+
+url = 'http://api.default.knative.kubecon/led'
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIN,GPIO.IN,GPIO.PUD_UP)
@@ -64,15 +67,19 @@ try:
             if data[0]+data[1] == 0xFF and data[2]+data[3] == 0xFF:  
                  print("Get the key: 0x%02x" %data[2])  #Data [2] is the control code we need
                  exec_cmd(data[2])
+                
                  if data[2] == 0x16:
                      GPIO.output(ledPin1,GPIO.HIGH)  #turn on led
                      print("turn on red led")
+                     requests.post(url, json = {"red_led":1,"green_led":0})
                  elif data[2] == 0x19:
                      GPIO.output(ledPin2,GPIO.HIGH)  #turn on led
-                     print("turn on green led")                    
+                     print("turn on green led")       
+                     requests.post(url, json = {"red_led":0,"green_led":1})             
                  if(data[2] == 0x4a):
                      GPIO.output(ledPin1,GPIO.LOW)  #turn off red led
                      GPIO.output(ledPin2,GPIO.LOW)  #turn off green led
+                     requests.post(url, json = {"red_led":0,"green_led":0})             
                      print("turn on leds")
 except KeyboardInterrupt:
     GPIO.cleanup()
