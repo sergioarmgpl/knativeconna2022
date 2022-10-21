@@ -11,11 +11,16 @@ GPIO.setup(PIN,GPIO.IN,GPIO.PUD_UP)
 
 ledPin1 = 25  #define led pin1
 ledPin2 = 23  #define led pin2
+ledPin3 = 21  #running program led pin
 GPIO.setup(ledPin1,GPIO.OUT)
 GPIO.setup(ledPin2,GPIO.OUT)
+GPIO.setup(ledPin3,GPIO.OUT)
 GPIO.output(ledPin1,GPIO.LOW)
 GPIO.output(ledPin2,GPIO.LOW)
 print("irm test start...")
+#GPIO.output(ledPin1,GPIO.HIGH)  #turn on led
+GPIO.output(ledPin3,GPIO.HIGH)  #turn on led
+#print("turn on red led")
 
 def exec_cmd(key_val):
     if(key_val==0x16):
@@ -26,6 +31,7 @@ def exec_cmd(key_val):
         print("Button #")
 
 try:
+    print("inside while")
     while True:
         if GPIO.input(PIN) == 0:
             count = 0
