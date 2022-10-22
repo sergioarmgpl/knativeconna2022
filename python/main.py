@@ -77,9 +77,11 @@ try:
                  if data[2] == 0x19:
                      GPIO.output(ledPin1,GPIO.HIGH)  #turn on led
                      print("turn on red led")
+                     GPIO.output(ledPin2,GPIO.LOW)  #turn off green led
                      requests.post(url, json = {"red_led":1,"green_led":0})
                  elif data[2] == 0x1b:
                      GPIO.output(ledPin2,GPIO.HIGH)  #turn on led
+                     GPIO.output(ledPin1,GPIO.LOW)  #turn off green led
                      print("turn on green led")       
                      requests.post(url, json = {"red_led":0,"green_led":1})             
                  if(data[2] == 0x1f):
