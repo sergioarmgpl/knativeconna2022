@@ -74,15 +74,15 @@ try:
                  print("Get the key: 0x%02x" %data[2])  #Data [2] is the control code we need
                  exec_cmd(data[2])
                 
-                 if data[2] == 0x16:
+                 if data[2] == 0x19:
                      GPIO.output(ledPin1,GPIO.HIGH)  #turn on led
                      print("turn on red led")
                      requests.post(url, json = {"red_led":1,"green_led":0})
-                 elif data[2] == 0x19:
+                 elif data[2] == 0x1b:
                      GPIO.output(ledPin2,GPIO.HIGH)  #turn on led
                      print("turn on green led")       
                      requests.post(url, json = {"red_led":0,"green_led":1})             
-                 if(data[2] == 0x4a):
+                 if(data[2] == 0x1f):
                      GPIO.output(ledPin1,GPIO.LOW)  #turn off red led
                      GPIO.output(ledPin2,GPIO.LOW)  #turn off green led
                      requests.post(url, json = {"red_led":0,"green_led":0})             
